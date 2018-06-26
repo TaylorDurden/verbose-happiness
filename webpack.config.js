@@ -66,7 +66,7 @@ const config = {
 }
 
 if(isDev){
-    config.devtool = '#cheap-module-eval-source-map'
+    config.devtool = '#cheap-module-eval-source-map';
     config.devServer = {
         port: '8000',
         host: '0.0.0.0',
@@ -74,11 +74,11 @@ if(isDev){
             errors: true,
         },
         hot: true
-    }
+    };
     config.plugins.push(
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
-    )
+        new webpack.NoEmitOnErrorsPlugin()
+    );
 }
 
 module.exports = config;
