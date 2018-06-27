@@ -9,11 +9,16 @@
         >
         <item 
             :todo="todo"
-            v-for="todo in todos"
+            v-for="todo in filteredTodos"
             :key="todo.id"
             @del="deleteTodo"
         />
-        <tabs :filter="filter"></tabs>
+        <tabs 
+            :filter="filter" 
+            :todos="todos" 
+            @toggle="toggleFilter"
+            @clearAllCompleted="clearAllCompleted"
+        />
     </section>
 </template>
 
@@ -33,6 +38,16 @@ export default {
         Item,
         Tabs
     },
+    computed: {
+        filteredTodos() {
+            if(this.filter === 'all') {
+                return this.todos;
+            }
+            const completed = this.filter === 'completed';
+            return this.todos.filter(todo => todo.completed === completed);
+        }
+    },
+    //在组件顶层操作下层的数据交互
     methods: {
         addTodo(e) {
             //插入数组的第一项
@@ -45,6 +60,12 @@ export default {
         },
         deleteTodo(id) {
             this.todos.splice(this.todos.findIndex(todo => todo.id === id), 1);
+        },
+        toggleFilter(state) {
+            this.filter = state;
+        },
+        clearAllCompleted() {
+            this.todos = this.todos.filter(todo => !todo.completed);
         }
     }
 }
